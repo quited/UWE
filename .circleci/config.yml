@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: debian:stretch
+
+    steps:
+      - checkout
+
+      - run: apt update
+      - run: apt upgrade -y
+      - run: apt install -y wget cmake make gcc g++
+      - run: mkdir build;cd build;cmake ..;make -j8

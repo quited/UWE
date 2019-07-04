@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.8)
+PROJECT(UWE)
+
+SET(EXECUTABLE_OUTPUT_PATH ./bin/)
+SET(LIBRARY_OUTPUT_PATH ./lib/)
+
+ADD_EXECUTABLE(main src/main.c)
