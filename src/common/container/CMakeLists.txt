@@ -1,0 +1,16 @@
+cmake_minimum_required(VERSION 2.8)
+project(container)
+set(CMAKE_C_STANDARD 11)
+
+add_library(array array/array.c)
+add_library(buffer buffer/buffer.c)
+add_library(container container.c)
+add_library(deque deque/deque.c)
+add_library(list list/list.c)
+add_library(set set/set.c)
+add_library(stack stack/stack.c)
+add_library(vector vector/vector.c)
+
+target_link_libraries(buffer array)
+target_link_libraries(stack deque)
+target_link_libraries(container array buffer deque list set stack vector)

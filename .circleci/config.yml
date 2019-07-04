@@ -10,4 +10,4 @@ jobs:
       - run: apt update
       - run: apt upgrade -y
       - run: apt install -y cmake make gcc g++
-      - run: mkdir build;cd build;cmake ..;make -j8
+      - run: mkdir build;cd build;cmake ..;make -j8;make test
