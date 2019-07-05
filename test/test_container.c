@@ -114,10 +114,8 @@ void test_buffer() {
     array write_arr = array_init(10, sizeof(int));
     for (int i = 0; i < 10; i++)
         TEST_ASSERT_EQUAL_INT(0, array_set(write_arr, i, &i));
-
-    array_destroy(write_arr);
-
     TEST_ASSERT_EQUAL_INT(0, buffer_write(buf, write_arr, 6));
+    array_destroy(write_arr);
 
     for (int i = 0; i < 6; i++) {
         int *p;
@@ -127,6 +125,20 @@ void test_buffer() {
     }
 
     TEST_ASSERT_EQUAL(NULL, buffer_destroy(buf));
+}
+
+void test_byte_buffer() {
+    byte_buffer buf = byte_buffer_init();
+    {
+        for (int i = 0; i < 10; i++)
+            TEST_ASSERT_EQUAL_INT(0, byte_buffer_write_byte(buf, (byte) i));
+
+        for (int i = 0; i < 10; i++) {
+            TEST_ASSERT_EQUAL_INT(10 - i, byte_buffer_read_available(buf));
+            TEST_ASSERT_EQUAL((byte) i, byte_buffer_read_byte(buf));
+        }
+    }
+    byte_buffer_destroy(buf);
 }
 
 void test_stack() {
@@ -182,5 +194,6 @@ int main(void) {
     RUN_TEST(test_buffer);
     RUN_TEST(test_stack);
     RUN_TEST(test_set);
+    RUN_TEST(test_byte_buffer);
     UNITY_END();
 }
