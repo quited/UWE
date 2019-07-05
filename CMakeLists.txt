@@ -8,7 +8,7 @@ set(LIBRARY_OUTPUT_PATH ./lib/)
 
 add_subdirectory(src/common/container)
 
-add_executable(main src/main.c)
+add_executable(UWE src/cmd/UWE/main.c)
 
 add_executable(test_stdlib test/test_stdlib.c)
 
@@ -17,7 +17,13 @@ target_link_libraries(test_container container)
 
 add_executable(test_type test/test_type.c)
 
-enable_testing()
-add_test(test_stdlib bin/test_stdlib)
-add_test(test_container bin/test_container)
-add_test(test_type bin/test_type)
+option(BUILD_TESTS "option for building test" OFF)
+
+if (BUILD_TESTS)
+    add_library(Unity third_party/Unity/src/unity.c third_party/Unity/src/unity.h third_party/Unity/src/unity_internals.h)
+    enable_testing()
+    add_test(test_stdlib bin/test_stdlib)
+    add_test(test_container bin/test_container)
+    add_test(test_type bin/test_type)
+else ()
+endif ()
