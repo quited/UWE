@@ -3,10 +3,6 @@
 
 #include <errno.h>
 
-int comp(const void *a, const void *b) {
-    return 0;
-}
-
 void test_array() {
     array arr = array_init(10, sizeof(int));
 
@@ -118,6 +114,8 @@ void test_buffer() {
     array write_arr = array_init(10, sizeof(int));
     for (int i = 0; i < 10; i++)
         TEST_ASSERT_EQUAL_INT(0, array_set(write_arr, i, &i));
+
+    array_destroy(write_arr);
 
     TEST_ASSERT_EQUAL_INT(0, buffer_write(buf, write_arr, 6));
 

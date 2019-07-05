@@ -10,7 +10,10 @@ add_library(list list/list.c)
 add_library(set set/set.c)
 add_library(stack stack/stack.c)
 add_library(vector vector/vector.c)
+add_library(byte_buffer byte_buffer/byte_buffer.c byte_buffer/byte_buffer.h)
 
 target_link_libraries(buffer array)
 target_link_libraries(stack deque)
-target_link_libraries(container array buffer deque list set stack vector)
+link_libraries(byte_buffer buffer)
+
+target_link_libraries(container array buffer deque list set stack vector byte_buffer)
