@@ -10,6 +10,6 @@
 
 array leb128FromUint64(u64 n);
 
-array leb128FromUint32(u32 n);
+u64 leb128ToUint64(array arr);
 
 #endif //UWE_LEB128_H

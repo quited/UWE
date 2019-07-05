@@ -5,14 +5,13 @@
 #include "leb128.h"
 
 array leb128FromUint64(u64 n) {
-    bool more = true;
-
     byte_buffer buf = byte_buffer_init();
 
-    while (more) {
+    for (;;) {
         byte b = (byte) (n & 0x7F);
         n >>= 7;
-        if (n == 0)more = false;
+        if (n == 0)
+            break;
         else {
             b = b | 0x80;
             if (byte_buffer_write_byte(buf, b))
@@ -20,5 +19,17 @@ array leb128FromUint64(u64 n) {
         }
     }
 
-    return byte_buffer_read(buf, byte_buffer_size(buf));
+    array res = byte_buffer_read(buf, byte_buffer_read_available(buf));
+    byte_buffer_destroy(buf);
+    return res;
+}
+
+u64 leb128ToUint64(array arr) {
+    u64 res = 0;
+    for (int i = 0, shift = 0;; i++, shift += 7) {
+        byte b = ((byte *) array_get_data(arr))[i];
+        res |= ((u64) 0x7F & b) << shift;
+        if (!(b & 0x80))break;
+    }
+    return res;
 }
