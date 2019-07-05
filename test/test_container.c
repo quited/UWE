@@ -1,6 +1,8 @@
 #include "common/container/container.h"
 #include "unity.h"
 
+#include <errno.h>
+
 int comp(const void *a, const void *b) {
     return 0;
 }
@@ -74,8 +76,43 @@ void test_array() {
     TEST_ASSERT_EQUAL(NULL, array_destroy(arr));
 }
 
+void test_vector() {
+    vector vec = vector_init(sizeof(int));
+
+    TEST_ASSERT_EQUAL_INT(1, vector_is_empty(vec));
+
+    {
+        for (int i = 0; i < 10; i++)
+            TEST_ASSERT_EQUAL_INT(0, vector_add_last(vec, &i));
+
+        for (int i = 0; i < 10; i++) {
+            int p;
+            TEST_ASSERT_EQUAL_INT(0, vector_get_first(&p, vec));
+            TEST_ASSERT_EQUAL_INT(i, p);
+            TEST_ASSERT_EQUAL_INT(0, vector_remove_first(vec));
+        }
+
+        TEST_ASSERT_EQUAL_INT(-EINVAL, vector_remove_first(vec));
+    }
+
+    {
+        for (int i = 0; i < 10; i++)
+            TEST_ASSERT_EQUAL_INT(0, vector_add_last(vec, &i));
+
+        for (int i = 0; i < 10; i++) {
+            int p;
+            TEST_ASSERT_EQUAL_INT(0, vector_get_at(&p, vec, i));
+            TEST_ASSERT_EQUAL_INT(i, p);
+        }
+        TEST_ASSERT_EQUAL_INT(0, vector_clear(vec));
+    }
+    
+    TEST_ASSERT_EQUAL(NULL, vector_destroy(vec));
+}
+
 int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_array);
+    RUN_TEST(test_vector);
     UNITY_END();
 }
