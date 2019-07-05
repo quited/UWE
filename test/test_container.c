@@ -171,7 +171,7 @@ void test_set() {
         TEST_ASSERT_EQUAL_INT(1, set_contains(s, &i));
 
     for (int i = 0; i < 11; i++)
-        TEST_ASSERT_EQUAL_INT(0, set_remove(s, &i));
+        TEST_ASSERT_EQUAL_INT(1, set_remove(s, &i));
 
     TEST_ASSERT_EQUAL_INT(1, set_is_empty(s));
     set_destroy(s);
