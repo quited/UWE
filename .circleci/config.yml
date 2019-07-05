@@ -9,5 +9,6 @@ jobs:
 
       - run: apt update
       - run: apt upgrade -y
-      - run: apt install -y cmake make gcc g++
-      - run: mkdir build;cd build;cmake ..;make -j8;make test
+      - run: apt install -y cmake make gcc g++ git
+      - run: git submodule update --init --recursive
+      - run: mkdir build;cd build;cmake -DBUILD_TESTS=ON ..;make -j8;make test
