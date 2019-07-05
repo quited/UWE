@@ -10,6 +10,7 @@ set(EXECUTABLE_OUTPUT_PATH ./bin/)
 set(LIBRARY_OUTPUT_PATH ./lib/)
 
 add_subdirectory(src/common/container)
+add_subdirectory(src/common/spec)
 
 add_executable(UWE src/cmd/UWE/main.c)
 
