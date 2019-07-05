@@ -85,6 +85,8 @@ void test_vector() {
         for (int i = 0; i < 10; i++)
             TEST_ASSERT_EQUAL_INT(0, vector_add_last(vec, &i));
 
+        TEST_ASSERT_EQUAL_INT(10, vector_size(vec));
+
         for (int i = 0; i < 10; i++) {
             int p;
             TEST_ASSERT_EQUAL_INT(0, vector_get_first(&p, vec));
@@ -106,13 +108,32 @@ void test_vector() {
         }
         TEST_ASSERT_EQUAL_INT(0, vector_clear(vec));
     }
-    
+
     TEST_ASSERT_EQUAL(NULL, vector_destroy(vec));
+}
+
+void test_buffer() {
+    buffer buf = buffer_init(sizeof(int));
+
+    array write_arr = array_init(10, sizeof(int));
+    for (int i = 0; i < 10; i++)
+        TEST_ASSERT_EQUAL_INT(0, array_set(write_arr, i, &i));
+
+    TEST_ASSERT_EQUAL_INT(0, buffer_write(buf, write_arr, 6));
+
+    for (int i = 0; i < 6; i++) {
+        void *p;
+        TEST_ASSERT_EQUAL_INT(0, buffer_read_one(&p, buf));
+        TEST_ASSERT_EQUAL_INT(i, *(int *) p);
+    }
+    
+    TEST_ASSERT_EQUAL(NULL, buffer_destroy(buf));
 }
 
 int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_array);
     RUN_TEST(test_vector);
+    RUN_TEST(test_buffer);
     UNITY_END();
 }

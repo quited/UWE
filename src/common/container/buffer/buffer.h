@@ -18,6 +18,10 @@ int buffer_read(array *data, buffer me, int n_element);
 
 int buffer_write(buffer me, array data, int n_element);
 
+int buffer_read_one(void **data,buffer me);
+
+int buffer_write_one(buffer me,void *data);
+
 int buffer_read_available(buffer me);
 
 buffer buffer_destroy(buffer me);

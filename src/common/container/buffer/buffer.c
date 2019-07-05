@@ -101,3 +101,18 @@ buffer buffer_from_array(array arr) {
     return init;
 }
 
+
+int buffer_read_one(void **data, buffer me) {
+    array arr;
+    int stat = buffer_read(&arr, me, 1);
+    if (stat)return stat;
+    *data = malloc(me->bytes_per_item);
+    if (*data == NULL)return -ENOMEM;
+    return array_get(*data, arr, 0);
+}
+
+int buffer_write_one(buffer me, void *data) {
+    array arr = array_from_array(data, 1, me->bytes_per_item);
+    if (arr == NULL)return -ENOMEM;
+    return buffer_write(me, arr, 1);
+}
