@@ -1,5 +1,5 @@
-#include "common/container/container.h"
-#include "unity.h"
+#include <container.h>
+#include <unity.h>
 
 #include <errno.h>
 
@@ -123,12 +123,14 @@ void test_buffer() {
 
     for (int i = 0; i < 6; i++) {
         void *p;
+        TEST_ASSERT_EQUAL_INT(6 - i, buffer_read_available(buf));
         TEST_ASSERT_EQUAL_INT(0, buffer_read_one(&p, buf));
         TEST_ASSERT_EQUAL_INT(i, *(int *) p);
     }
-    
+
     TEST_ASSERT_EQUAL(NULL, buffer_destroy(buf));
 }
+
 
 int main(void) {
     UNITY_BEGIN();

@@ -3,6 +3,9 @@ project(UWE)
 set(CMAKE_C_STANDARD 11)
 
 include_directories("src")
+include_directories("src/common")
+include_directories("src/common/container")
+
 set(EXECUTABLE_OUTPUT_PATH ./bin/)
 set(LIBRARY_OUTPUT_PATH ./lib/)
 
