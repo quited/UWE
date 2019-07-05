@@ -1,30 +1,66 @@
 #include "common/container/container.h"
+#include "unity.h"
 
-int comp(const void* a, const void* b){
-  return 0;
+int comp(const void *a, const void *b) {
+    return 0;
 }
 
-int main(void){
-  array arr = array_init(1,sizeof(int));
-  array_destroy(arr);
+void test_array() {
+    array arr = array_init(10, sizeof(int));
 
-  buffer buf = buffer_init(sizeof(int));
-  buffer_destroy(buf);
+    TEST_ASSERT_EQUAL_INT(10, array_size(arr));
 
-  deque deq = deque_init(sizeof(int));
-  deque_destroy(deq);
+    for (int i = 0; i < 10; i++)
+        TEST_ASSERT_EQUAL_INT(0, array_set(arr, i, &i));
+    for (int i = 0; i < 10; i++) {
+        int p;
+        TEST_ASSERT_EQUAL_INT(0, array_get(&p, arr, i));
+        TEST_ASSERT_EQUAL_INT(i, p);
+    }
 
-  list lis = list_init(sizeof(int));
-  list_destroy(lis);
+    array copy = array_copy(arr);
+    TEST_ASSERT_EQUAL_INT(10, array_size(copy));
 
-  set se = set_init(sizeof(int),comp);
-  set_destroy(se);
+    for (int i = 0; i < 10; i++)
+        TEST_ASSERT_EQUAL_INT(0, array_set(copy, i, &i));
+    for (int i = 0; i < 10; i++) {
+        int p;
+        TEST_ASSERT_EQUAL_INT(0, array_get(&p, copy, i));
+        TEST_ASSERT_EQUAL_INT(i, p);
+    }
+    array_destroy(copy);
 
-  stack sta = stack_init(sizeof(int));
-  stack_destroy(sta);
+    int *ptr = (int *) malloc(sizeof(int) * 10);
+    array_copy_to_array(ptr, arr);
+    for (int i = 0; i < 10; i++)
+        TEST_ASSERT_EQUAL(i, ptr[i]);
+    free(ptr);
 
-  vector vec = vector_init(sizeof(vec));
-  vector_destroy(vec);
+    ptr = (int *) array_get_data(arr);
+    for (int i = 0; i < 10; i++)
+        TEST_ASSERT_EQUAL(i, ptr[i]);
 
-  return 0;
+    //slice arr[2,4)
+    array slice = array_slice(arr, 2, 4);
+    TEST_ASSERT_EQUAL(2, array_size(slice));
+    for (int i = 2; i < 4; i++) {
+        int p;
+        TEST_ASSERT_EQUAL(0, array_get(&p, slice, i - 2));
+        TEST_ASSERT_EQUAL(i, p);
+    }
+
+    array append = array_append(arr, slice);
+    ptr = (int *) array_get_data(append);
+    int expected[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 2, 3};
+    TEST_ASSERT_EQUAL_INT_ARRAY(expected, ptr, 12);
+
+    TEST_ASSERT_EQUAL(NULL, array_destroy(append));
+    TEST_ASSERT_EQUAL(NULL, array_destroy(slice));
+    TEST_ASSERT_EQUAL(NULL, array_destroy(arr));
+}
+
+int main(void) {
+    UNITY_BEGIN();
+    RUN_TEST(test_array);
+    UNITY_END();
 }
