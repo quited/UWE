@@ -2,9 +2,10 @@ cmake_minimum_required(VERSION 2.8)
 project(UWE)
 set(CMAKE_C_STANDARD 11)
 
-include_directories("src")
-include_directories("src/common")
-include_directories("src/common/container")
+include_directories(src)
+include_directories(src/common)
+include_directories(src/common/container)
+include_directories(third_party/pt)
 
 set(EXECUTABLE_OUTPUT_PATH ./bin/)
 set(LIBRARY_OUTPUT_PATH ./lib/)
@@ -13,6 +14,7 @@ add_subdirectory(src/common/container)
 add_subdirectory(src/common/spec)
 
 add_executable(UWE src/cmd/UWE/main.c)
+add_library(pt third_party/pt_mock.c third_party/pt/pt.h)
 
 option(BUILD_TESTS "option for building test" OFF)
 
@@ -32,9 +34,12 @@ if (BUILD_TESTS)
     target_link_libraries(test_stdlib Unity)
     target_link_libraries(test_type Unity)
 
+    add_executable(test_pt third_party/pt/pt_test.c third_party/pt/pt.h)
+
     enable_testing()
     add_test(test_stdlib bin/test_stdlib)
     add_test(test_container bin/test_container)
     add_test(test_type bin/test_type)
+    add_test(test_pt bin/test_pt)
 else ()
 endif ()
