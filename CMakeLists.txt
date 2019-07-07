@@ -11,7 +11,11 @@ set(EXECUTABLE_OUTPUT_PATH ./bin/)
 set(LIBRARY_OUTPUT_PATH ./lib/)
 
 add_subdirectory(src/common/container)
+<<<<<<< HEAD
 add_subdirectory(src/common/wasmspec)
+=======
+add_subdirectory(src/common/wasmpec)
+>>>>>>> 5feb8bd7465bb32850edda0b489cee9c5b20e53d
 add_subdirectory(src/common/wasmobj)
 add_subdirectory(src/common/LEB128)
 add_subdirectory(src/parser)
