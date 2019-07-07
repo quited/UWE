@@ -25,7 +25,6 @@ int main(int argc, char *argv[]) {
         array_destroy(arr);
     }
 
-<<<<<<< HEAD
   wasmobj wasm_obj = parse(byte_buffer_ins);
   byte_buffer_destroy(byte_buffer_ins);
   if(!wasm_obj) {
@@ -35,12 +34,4 @@ int main(int argc, char *argv[]) {
     printf("Parse Success\n");
   }
   return 0;
-=======
-    if (fclose(file))return -1;
-
-    parse(byte_buffer_ins);
-
-    byte_buffer_destroy(byte_buffer_ins);
-    return 0;
->>>>>>> b0031c3eed965024019861b7341c6690f28888d4
 }
