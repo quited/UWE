@@ -26,9 +26,8 @@ int main(int argc, char *argv[]) {
   
   {
     array arr = array_init(100, sizeof(byte));
-    int read = 0;
     do {
-      read = fread(array_get_data(arr), sizeof(byte), array_size(arr), file);
+        int read = fread(array_get_data(arr), sizeof(byte), array_size(arr), file);
       if (!read) break;
       if (!arr) {
         debug_out("Init parser fail (arr)\n");
@@ -42,7 +41,7 @@ int main(int argc, char *argv[]) {
     array_destroy(arr);
   }
 
-  debug_out("read %d \n",byte_buffer_size(byte_buffer_ins));
+    debug_out("read %d \n", byte_buffer_read_available(byte_buffer_ins));
 
   wasmobj wasm_obj = parse(byte_buffer_ins);
   byte_buffer_destroy(byte_buffer_ins);
