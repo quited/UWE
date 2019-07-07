@@ -5,4 +5,4 @@ set(CMAKE_C_STANDARD 11)
 set(EXECUTABLE_OUTPUT_PATH ./bin/)
 set(LIBRARY_OUTPUT_PATH ./lib/)
 
-add_library(util debugtool.h debugtool.c pointer.c pointer.h endian.c endian.h)
+add_library(util pointer.c pointer.h debugtool.h debugtool.c endian.c endian.h)
