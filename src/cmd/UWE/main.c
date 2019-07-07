@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
   }
   byte_buffer byte_buffer_ins = byte_buffer_init();
   if (!byte_buffer_ins) {
-    debug_out("Init parser fail (byte_buffer_ins)\n");
+    debug_out("Init parser fail (byte_buffer_init)\n");
     return -1;
   }
   FILE *file = fopen(argv[1], "rb");
@@ -23,29 +23,30 @@ int main(int argc, char *argv[]) {
     debug_out("Open file fail\n");
     return -1;
   }
-  
+
   {
     array arr = array_init(100, sizeof(byte));
+    if (!arr) {
+      debug_out("Init parser fail (array_init)\n");
+      return -1;
+    }
     do {
-        int read = fread(array_get_data(arr), sizeof(byte), array_size(arr), file);
+      int read = fread(array_get_data(arr), sizeof(byte), array_size(arr), file);
       if (!read) break;
-      if (!arr) {
-        debug_out("Init parser fail (arr)\n");
-        return -1;
-      }
+
       if (byte_buffer_write(byte_buffer_ins, arr, read)) {
-        debug_out("File read fail (byte_buffer_ins)\n");
+        debug_out("File read fail (byte_buffer_write)\n");
         return -1;
       }
     } while (true);
     array_destroy(arr);
   }
 
-    debug_out("read %d \n", byte_buffer_read_available(byte_buffer_ins));
+  debug_out("read %d \n", byte_buffer_read_available(byte_buffer_ins));
 
   wasmobj wasm_obj = parse(byte_buffer_ins);
   byte_buffer_destroy(byte_buffer_ins);
-  if(!wasm_obj) {
+  if (!wasm_obj) {
     printf("Parse Error\n");
   } else {
     wasmobj_destroy(wasm_obj);
