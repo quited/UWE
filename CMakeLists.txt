@@ -23,7 +23,7 @@ link_libraries(parser wasmobj util)
 add_executable(UWE src/cmd/UWE/main.c)
 add_library(pt third_party/pt_mock.c third_party/pt/pt.h)
 
-target_link_libraries(UWE container spec parser util)
+target_link_libraries(UWE container util spec parser)
 
 option(BUILD_TESTS "option for building test" OFF)
 
@@ -39,7 +39,7 @@ if (BUILD_TESTS)
     add_executable(test_container test/test_container.c)
     add_executable(test_type test/test_type.c)
 
-    target_link_libraries(test_container container Unity)
+    target_link_libraries(test_container container Unity util)
     target_link_libraries(test_stdlib Unity)
     target_link_libraries(test_type Unity)
 

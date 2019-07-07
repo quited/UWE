@@ -18,6 +18,6 @@ add_library(map map/map.c map/map.h)
 
 target_link_libraries(buffer array)
 target_link_libraries(stack deque)
-target_link_libraries(byte_buffer buffer)
+target_link_libraries(byte_buffer buffer util)
 
-target_link_libraries(container array buffer deque list set stack vector byte_buffer util)
+target_link_libraries(container util array buffer deque list set stack vector byte_buffer)
