@@ -2,7 +2,7 @@
 
 #include "common/container/array/array.h"
 #include "common/container/byte_buffer/byte_buffer.h"
-#include "common/spec/magic.h"
+#include "common/wasmspec/magic.h"
 #include "common/wasmobj/wasmobj.h"
 
 wasmobj parse(byte_buffer wasm_raw) {
