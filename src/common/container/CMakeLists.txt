@@ -7,7 +7,7 @@ set(LIBRARY_OUTPUT_PATH ./lib/)
 
 add_library(array array/array.c)
 add_library(buffer buffer/buffer.c)
-add_library(container container.c check_me.h)
+add_library(container container.c)
 add_library(deque deque/deque.c)
 add_library(list list/list.c)
 add_library(set set/set.c)
