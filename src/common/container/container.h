@@ -13,5 +13,6 @@
 #include "stack/stack.h"
 #include "vector/vector.h"
 #include "byte_buffer/byte_buffer.h"
+#include "map/map.h"
 
 #endif //DATA_DATA_H
