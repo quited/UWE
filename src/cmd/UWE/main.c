@@ -5,19 +5,29 @@
 #include "parser/parser.h"
 #include "common/type.h"
 
-int main(int argc,char *argv[]) {
-  if(argc!=2) return -1;
-  byte_buffer byte_buffer_ins = byte_buffer_init();
-  FILE *file = fopen(argv[1],"rb");
-  if(!file) return -1;
+int main(int argc, char *argv[]) {
+    if (argc != 2) return -1;
+    byte_buffer byte_buffer_ins = byte_buffer_init();
+    if (byte_buffer_ins)return -1;
+    FILE *file = fopen(argv[1], "rb");
+    if (!file) return -1;
 
-  byte *buffer = malloc(sizeof(byte));
-  while (fread(buffer,sizeof(byte),1,file))
-    byte_buffer_write_byte(byte_buffer_ins, *buffer);
-  free(buffer);
-  fclose(file);
+    {
+        array arr = array_init(100, sizeof(byte));
+        int read = 0;
+        do {
+            read = fread(array_get_data(arr), sizeof(byte), array_size(arr), file);
+            if (!read)break;
+            if (!arr)return -1;
+            if (byte_buffer_write(byte_buffer_ins, arr, read))return -1;
+        } while (true);
+        array_destroy(arr);
+    }
 
-  parse(byte_buffer_ins);
-  byte_buffer_destroy(byte_buffer_ins);
-  return 0;
+    if (fclose(file))return -1;
+
+    parse(byte_buffer_ins);
+
+    byte_buffer_destroy(byte_buffer_ins);
+    return 0;
 }
