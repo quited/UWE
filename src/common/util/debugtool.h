@@ -3,4 +3,6 @@
 
 int debug_out(const char *format, ...);
 
+void avoid_null_pointer(void *ptr);
+
 #endif
