@@ -4,7 +4,7 @@
 
 #include <container/buffer/buffer.h>
 #include <type.h>
-#include <common/util/debugtool.h>
+#include <common/util/pointer.h>
 
 #include "byte_buffer.h"
 

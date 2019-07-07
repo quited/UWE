@@ -6,6 +6,7 @@
 #define DATA_ARRAY_H
 
 #include <stdlib.h>
+#include <common/type.h>
 
 typedef struct internal_array *array;
 
@@ -34,5 +35,9 @@ array array_copy(array me);
 array array_from_array(void *arr, int element_count, size_t data_size);
 
 size_t array_bytes_per_item(array me);
+
+void array_for_each_byte(array me, byte (*func)(byte b));
+
+array array_revert_items(array me);
 
 #endif //DATA_ARRAY_H

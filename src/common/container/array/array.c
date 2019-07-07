@@ -6,7 +6,7 @@
 
 #include <string.h>
 #include <errno.h>
-#include <common/util/debugtool.h>
+#include <common/util/pointer.h>
 
 struct internal_array {
   size_t bytes_per_item;
@@ -152,4 +152,26 @@ array array_from_array(void *arr, int element_count, size_t data_size) {
 size_t array_bytes_per_item(array me) {
   avoid_null_pointer(me);
   return me->bytes_per_item;
+}
+
+void array_for_each_byte(array me, byte (*func)(byte b)) {
+  avoid_null_pointer(me);
+  avoid_null_pointer(func);
+
+  byte *ptr = (byte *) me->data;
+  for (u64 i = 0; i < me->item_count * me->bytes_per_item / sizeof(byte); i++)
+    ptr[i] = func(ptr[i]);
+}
+
+array array_revert_items(array me) {
+  array res = array_init(me->item_count, me->bytes_per_item);
+  if (!res)return NULL;
+
+  for (int i = 0, j = me->item_count - 1; i < me->item_count && j >= 0; i++, j--) {
+    void *data = malloc(me->bytes_per_item);
+    if (!data)return NULL;
+    if (array_get(data, me, i))return NULL;
+    if (array_set(res, j, data))return NULL;
+  }
+  return res;
 }
