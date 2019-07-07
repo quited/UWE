@@ -18,7 +18,7 @@ add_subdirectory(src/parser)
 add_subdirectory(src/common/util)
 
 link_libraries(wasmobj container spec)
-link_libraries(parser wasmobj)
+link_libraries(parser wasmobj util)
 
 add_executable(UWE src/cmd/UWE/main.c)
 add_library(pt third_party/pt_mock.c third_party/pt/pt.h)
