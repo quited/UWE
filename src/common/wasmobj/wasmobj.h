@@ -8,6 +8,6 @@ typedef struct internal_wasmobj *wasmobj;
 
 wasmobj wasmobj_init(byte_buffer version);
 
-wasmobj wasmobj_destory(wasmobj me);
+wasmobj wasmobj_destroy(wasmobj me);
 
 #endif
