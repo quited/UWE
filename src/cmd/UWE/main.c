@@ -4,6 +4,7 @@
 #include "common/container/byte_buffer/byte_buffer.h"
 #include "parser/parser.h"
 #include "common/type.h"
+#include "common/wasmobj/wasmobj.h"
 
 int main(int argc,char *argv[]) {
   if(argc!=2) return -1;
@@ -17,7 +18,13 @@ int main(int argc,char *argv[]) {
   free(buffer);
   fclose(file);
 
-  parse(byte_buffer_ins);
+  wasmobj wasm_obj = parse(byte_buffer_ins);
   byte_buffer_destroy(byte_buffer_ins);
+  if(!wasm_obj) {
+    printf("Parse Error\n");
+  } else {
+    wasmobj_destory(wasm_obj);
+    printf("Parse Success\n");
+  }
   return 0;
 }
