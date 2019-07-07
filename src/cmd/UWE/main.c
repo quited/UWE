@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
   if(!wasm_obj) {
     printf("Parse Error\n");
   } else {
-    wasmobj_destory(wasm_obj);
+    wasmobj_destroy(wasm_obj);
     printf("Parse Success\n");
   }
   return 0;

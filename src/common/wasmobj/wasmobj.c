@@ -17,7 +17,7 @@ wasmobj wasmobj_init(byte_buffer version) {
   return init;
 }
 
-wasmobj wasmobj_destory(wasmobj me) {
+wasmobj wasmobj_destroy(wasmobj me) {
   byte_buffer_destroy(me->version);
   me->version = NULL;
   free(me);
