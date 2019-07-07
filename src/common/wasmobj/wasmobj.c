@@ -15,7 +15,7 @@ wasmobj wasmobj_init(u32 version) {
   return init;
 }
 
-wasmobj wasmobj_destory(wasmobj me) {
+wasmobj wasmobj_destroy(wasmobj me) {
   free(me);
   return NULL;
 }
