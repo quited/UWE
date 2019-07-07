@@ -3,5 +3,3 @@
 //
 
 #include "container.h"
-
-//placeholder
