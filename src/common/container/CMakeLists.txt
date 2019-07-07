@@ -14,6 +14,7 @@ add_library(set set/set.c)
 add_library(stack stack/stack.c)
 add_library(vector vector/vector.c)
 add_library(byte_buffer byte_buffer/byte_buffer.c)
+add_library(map map/map.c map/map.h)
 
 target_link_libraries(buffer array)
 target_link_libraries(stack deque)
