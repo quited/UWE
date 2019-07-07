@@ -4,6 +4,7 @@
 #include "common/container/byte_buffer/byte_buffer.h"
 #include "common/wasmspec/magic.h"
 #include "common/wasmspec/section_id.h"
+#include "common/type.h"
 #include "common/util/debugtool.h"
 #include "common/wasmobj/wasmobj.h"
 
@@ -12,12 +13,17 @@ wasmobj parse(byte_buffer wasm_raw) {
   /* Check Magic Seg */
   array magic_arr = byte_buffer_read(wasm_raw,4);
   if(array_size(magic_arr)==4) {
-    for(int i;i<4;i++)
-      if(((byte*)array_get_data(magic_arr))[i] != magic[i]) {
+    byte *m = malloc(sizeof(byte));
+    for(int i;i<4;i++){
+      array_get(m,magic_arr,i);
+      if(*m != magic[i]) {
         array_destroy(magic_arr);
+        free(m);
         debug_out("Magic Seg check fail\n");
         return NULL;
       }
+    }
+    free(m);
   } else {
     array_destroy(magic_arr);
     debug_out("Magic Seg read fail\n");
