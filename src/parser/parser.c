@@ -27,7 +27,9 @@ wasmobj parse(byte_buffer wasm_raw) {
 
   /* Parse Version Seg */
   array version_arr = byte_buffer_read(wasm_raw,4);
-  wasmobj wasm_obj = wasmobj_init(version_arr);
+  byte_buffer version_buf = byte_buffer_init();
+  byte_buffer_write(version_buf,version_arr,4);
+  wasmobj wasm_obj = wasmobj_init(version_buf);
   if(!wasm_obj){
     debug_out("Parse malloc fail (wasm_obj)\n");
     return NULL;
