@@ -6,7 +6,7 @@
 
 #include <string.h>
 #include <errno.h>
-#include <common/util/debugtool.h>
+#include <common/util/pointer.h>
 
 static const int BLOCK_SIZE = 8;
 static const double RESIZE_RATIO = 1.5;

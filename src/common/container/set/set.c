@@ -6,7 +6,7 @@
 
 #include <string.h>
 #include <errno.h>
-#include <common/util/debugtool.h>
+#include <common/util/pointer.h>
 
 struct internal_set {
   size_t key_size;

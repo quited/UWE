@@ -6,7 +6,7 @@
 
 #include <string.h>
 #include <errno.h>
-#include <common/util/debugtool.h>
+#include <common/util/pointer.h>
 #include "map.h"
 
 struct internal_map {

@@ -2,7 +2,7 @@
 // Created by 31838 on 7/2/2019.
 //
 
-#include <common/util/debugtool.h>
+#include <common/util/pointer.h>
 #include "stack.h"
 
 #include "../deque/deque.h"
