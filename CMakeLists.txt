@@ -11,8 +11,9 @@ set(EXECUTABLE_OUTPUT_PATH ./bin/)
 set(LIBRARY_OUTPUT_PATH ./lib/)
 
 add_subdirectory(src/common/container)
-add_subdirectory(src/common/spec)
+add_subdirectory(src/common/wamspec)
 add_subdirectory(src/common/wasmobj)
+add_subdirectory(src/common/LEB128)
 add_subdirectory(src/parser)
 
 link_libraries(wasmobj container spec)
