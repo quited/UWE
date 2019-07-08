@@ -16,6 +16,7 @@ add_subdirectory(src/common/wasmobj)
 add_subdirectory(src/common/LEB128)
 add_subdirectory(src/parser)
 add_subdirectory(src/common/util)
+add_subdirectory(src/executor)
 
 link_libraries(wasmobj container spec)
 link_libraries(parser wasmobj util)
