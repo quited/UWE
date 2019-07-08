@@ -32,7 +32,11 @@ byte revert_endian_for_each_func(byte b) {
 }
 
 array revert_array(array arr) {
-  array res = array_revert_items(arr);
+  byte *data = array_get_data(arr);
+  array res = array_init(array_size(arr) * array_bytes_per_item(arr), sizeof(byte));
+  for (u32 i = 0, j = array_size(arr) * array_bytes_per_item(arr) - 1;
+       i < array_size(arr) * array_bytes_per_item(arr) && j >= 0; i++, j--)
+    if (array_set(res, i, &data[j]))return NULL;
   array_for_each_byte(res, revert_endian_for_each_func);
   return res;
 }
