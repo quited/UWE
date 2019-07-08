@@ -26,3 +26,13 @@ byte revert_endian(byte b) {
   }
   return res;
 }
+
+byte revert_endian_for_each_func(byte b) {
+  return revert_endian(b);
+}
+
+array revert_array(array arr) {
+  array res = array_revert_items(arr);
+  array_for_each_byte(res, revert_endian_for_each_func);
+  return res;
+}
