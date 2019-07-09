@@ -18,7 +18,7 @@ add_subdirectory(src/parser)
 add_subdirectory(src/common/util)
 add_subdirectory(src/executor)
 
-link_libraries(wasmobj container spec)
+link_libraries(wasmobj container spec util)
 link_libraries(parser wasmobj util leb128)
 
 add_executable(UWE src/cmd/UWE/main.c)

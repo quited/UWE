@@ -1,12 +1,17 @@
 #include "parser.h"
 
 #include "common/container/array/array.h"
+#include "common/container/buffer/buffer.h"
 #include "common/container/byte_buffer/byte_buffer.h"
+#include "common/util/debugtool.h"
+#include "common/wasmobj/typeobj/funcobj/funcobj.h"
 #include "common/LEB128/leb128.h"
 #include "common/wasmspec/magic.h"
 #include "common/wasmspec/section_id.h"
 #include "common/type.h"
-#include "common/util/debugtool.h"
+#include "common/wasmspec/typecode.h"
+#include "common/wasmobj/typeobj/typeobj.h"
+#include "common/container/vector/vector.h"
 #include "common/wasmobj/wasmobj.h"
 
 wasmobj parse(byte_buffer wasm_raw) {
@@ -51,6 +56,46 @@ wasmobj parse(byte_buffer wasm_raw) {
         u32 len = (u32)Leb128ToUint64(wasm_raw);
         debug_out("Type Section Found, length: %d bytes.\n",len);
         array type_arr = byte_buffer_read(wasm_raw,len);
+        byte_buffer type_buf = byte_buffer_init();
+        byte_buffer_write(type_buf,type_arr,len);
+        typeobj type_obj = typeobj_init(type_buf);
+        if(!type_obj) {
+          debug_out("Parse Error (Type Parse Error)\n");
+        } else {
+          int func_count = typeobj_get_size(type_obj);
+          debug_out("Found %d function types.\n",func_count);
+          for(int i=0;i<func_count;i++) {
+            funcobj f = typeobj_get_at(type_obj,i);
+
+            vector params = funcobj_get_param(f);
+            if(!params) {
+              debug_out("Get Params Fail.\n");
+            } else {
+              debug_out("Params: ");
+              int params_count = vector_size(params);
+              for(int j=0;j<params_count;j++) {
+                TypeCode type;
+                vector_get_at((void*)&type,params,j);
+                debug_out("%x ",type);
+              }
+              debug_out("\n");
+            }
+
+            vector rets = funcobj_get_ret(f); //Core dumped here because Null Pointer f->ret
+            if(!rets) {
+              debug_out("Get Returns Fail.\n");
+            } else {
+              debug_out("Returns: ");
+              int rets_count = vector_size(rets);
+              for(int j=0;j<rets_count;j++) {
+                TypeCode type;
+                vector_get_at((void*)&type,rets,j);
+                debug_out("%x ",type);
+              }
+              debug_out("\n");
+            }
+          }
+        }
         array_destroy(type_arr);
       }
       break;
