@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
     array_destroy(arr);
   }
 
-  debug_out("read %d \n", byte_buffer_read_available(byte_buffer_ins));
+  debug_out("Total read %d \n", byte_buffer_read_available(byte_buffer_ins));
 
   wasmobj wasm_obj = parse(byte_buffer_ins);
   byte_buffer_destroy(byte_buffer_ins);
@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
     printf("Parse Error\n");
   } else {
     wasmobj_destroy(wasm_obj);
-    printf("Parse Success\n");
+    printf("Parse Successful\n");
   }
   return 0;
 }
