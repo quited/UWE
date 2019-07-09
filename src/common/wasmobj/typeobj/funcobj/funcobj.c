@@ -4,14 +4,14 @@
 #include "common/container/vector/vector.h"
 #include "common/util/pointer.h"
 
-struct  internal_funcobj {
+struct internal_funcobj {
   vector param;
   vector ret;
 };
 
-funcobj funcobj_init(void){
+funcobj funcobj_init(void) {
   funcobj init = malloc(sizeof(funcobj));
-  if(!init) return NULL;
+  if (!init) return NULL;
   init->param = vector_init(sizeof(TypeCode));
   init->ret = vector_init(sizeof(TypeCode));
   avoid_null_pointer(init->param);
@@ -21,8 +21,8 @@ funcobj funcobj_init(void){
 
 funcobj funcobj_destroy(funcobj me) {
   avoid_null_pointer(me);
-  if(me->param) vector_destroy(me->param);
-  if(me->ret) vector_destroy(me->ret);
+  if (me->param) vector_destroy(me->param);
+  if (me->ret) vector_destroy(me->ret);
   me->param = NULL;
   me->ret = NULL;
   free(me);
@@ -45,6 +45,7 @@ vector funcobj_get_param(funcobj me) {
 }
 
 vector funcobj_get_ret(funcobj me) {
+  avoid_null_pointer(me);
   avoid_null_pointer(me->ret);
   return me->ret;
 }
