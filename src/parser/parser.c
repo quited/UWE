@@ -14,34 +14,28 @@
 #include "common/container/vector/vector.h"
 #include "common/wasmobj/wasmobj.h"
 
+#include <errno.h>
+
+int check_magic(byte_buffer buf) {
+  if (byte_buffer_read_available(buf) >= 4) {
+    for (int i = 0; i < 4; i++) {
+      byte b = byte_buffer_read_byte(buf);
+      if (b != magic[i])
+        return -EINVAL;
+    }
+  } else return -EAGAIN;
+  return 0;
+}
+
 wasmobj parse(byte_buffer wasm_raw) {
 
-  /* Check Magic Seg */
-  array magic_arr = byte_buffer_read(wasm_raw, 4);
-  if (array_size(magic_arr) == 4) {
-
-    for (int i = 0; i < 4; i++) {
-      byte m;
-      if (array_get(&m, magic_arr, i))
-        return NULL;
-      if (m != magic[i]) {
-        array_destroy(magic_arr);
-        debug_out("Magic Seg check fail\n");
-        return NULL;
-      }
-    }
-  } else {
-    array_destroy(magic_arr);
+  if (check_magic(wasm_raw)) {
     debug_out("Magic Seg read fail\n");
     return NULL;
   }
-  array_destroy(magic_arr);
 
   /* Parse Version Seg */
-  array version_arr = byte_buffer_read(wasm_raw, 4);
-  byte_buffer version_buf = byte_buffer_init();
-  byte_buffer_write(version_buf, version_arr, 4);
-  wasmobj wasm_obj = wasmobj_init(version_buf);
+  wasmobj wasm_obj = wasmobj_init(wasm_raw);
   if (!wasm_obj) {
     debug_out("Parse malloc fail (wasm_obj)\n");
     return NULL;
@@ -50,54 +44,54 @@ wasmobj parse(byte_buffer wasm_raw) {
   while (byte_buffer_read_available(wasm_raw)) {
     byte seg_type = byte_buffer_read_byte(wasm_raw);
     switch (seg_type) {
-      
       /* Parse Type Seg */
-      case Type: {
-        u32 len = (u32)Leb128ToUint64(wasm_raw);
-        debug_out("Type Section Found, length: %d bytes.\n",len);
-        array type_arr = byte_buffer_read(wasm_raw,len);
-        byte_buffer type_buf = byte_buffer_init();
-        byte_buffer_write(type_buf,type_arr,len);
-        typeobj type_obj = typeobj_init(type_buf);
-        if(!type_obj) {
-          debug_out("Parse Error (Type Parse Error)\n");
-        } else {
-          int func_count = typeobj_get_size(type_obj);
-          debug_out("Found %d function types.\n",func_count);
-          for(int i=0;i<func_count;i++) {
-            funcobj f = typeobj_get_at(type_obj,i);
-
-            vector params = funcobj_get_param(f);
-            if(!params) {
-              debug_out("Get Params Fail.\n");
-            } else {
-              debug_out("Params: ");
-              int params_count = vector_size(params);
-              for(int j=0;j<params_count;j++) {
-                TypeCode type;
-                vector_get_at((void*)&type,params,j);
-                debug_out("%x ",type);
-              }
-              debug_out("\n");
-            }
-
-            vector rets = funcobj_get_ret(f); //Core dumped here because Null Pointer f->ret
-            if(!rets) {
-              debug_out("Get Returns Fail.\n");
-            } else {
-              debug_out("Returns: ");
-              int rets_count = vector_size(rets);
-              for(int j=0;j<rets_count;j++) {
-                TypeCode type;
-                vector_get_at((void*)&type,rets,j);
-                debug_out("%x ",type);
-              }
-              debug_out("\n");
-            }
-          }
-        }
-        array_destroy(type_arr);
-      }
+      case Type:
+//        {
+//        u32 len = (u32)Leb128ToUint64(wasm_raw);
+//        debug_out("Type Section Found, length: %d bytes.\n",len);
+//        array type_arr = byte_buffer_read(wasm_raw,len);
+//        byte_buffer type_buf = byte_buffer_init();
+//        byte_buffer_write(type_buf,type_arr,len);
+//        typeobj type_obj = typeobj_init(type_buf);
+//        if(!type_obj) {
+//          debug_out("Parse Error (Type Parse Error)\n");
+//        } else {
+//          int func_count = typeobj_get_size(type_obj);
+//          debug_out("Found %d function types.\n",func_count);
+//          for(int i=0;i<func_count;i++) {
+//            funcobj f = typeobj_get_at(type_obj,i);
+//
+//            vector params = funcobj_get_param(f);
+//            if(!params) {
+//              debug_out("Get Params Fail.\n");
+//            } else {
+//              debug_out("Params: ");
+//              int params_count = vector_size(params);
+//              for(int j=0;j<params_count;j++) {
+//                TypeCode type;
+//                vector_get_at((void*)&type,params,j);
+//                debug_out("%x ",type);
+//              }
+//              debug_out("\n");
+//            }
+//
+//            vector rets = funcobj_get_ret(f); //Core dumped here because Null Pointer f->ret
+//            if(!rets) {
+//              debug_out("Get Returns Fail.\n");
+//            } else {
+//              debug_out("Returns: ");
+//              int rets_count = vector_size(rets);
+//              for(int j=0;j<rets_count;j++) {
+//                TypeCode type;
+//                vector_get_at((void*)&type,rets,j);
+//                debug_out("%x ",type);
+//              }
+//              debug_out("\n");
+//            }
+//          }
+//        }
+//        array_destroy(type_arr);
+//      }
       break;
       
       /* Parse Import Seg */
