@@ -17,15 +17,12 @@ typeobj typeobj_init(byte_buffer seg_raw) {
   typeobj init = malloc(sizeof(typeobj));
   if(!init) return NULL;
   init->type_list = vector_init(sizeof(funcobj));
-
-  /* v1 */
   if(!init->type_list) {
     free(init);
     return NULL;
   }
-  /* v2 */
-  avoid_null_pointer(init->type_list);
 
+  u32 len = (u32) Leb128ToUint64(seg_raw);
   u32 func_count = (u32)Leb128ToUint64(seg_raw);
   for(int i=0; i<func_count; i++) {
     if(byte_buffer_read_byte(seg_raw) != 0x60) {
