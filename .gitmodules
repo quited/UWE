@@ -1,6 +1,0 @@
-[submodule "third_party/Unity"]
-	path = third_party/Unity
-	url = https://github.com/ThrowTheSwitch/Unity.git
-[submodule "third_party/pt"]
-	path = third_party/pt
-	url = https://github.com/zserge/pt.git

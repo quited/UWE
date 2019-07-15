@@ -11,7 +11,7 @@ jobs:
       - run: apt upgrade -y
       - run: apt install -y cmake make gcc g++ git
       - run: git submodule update --init --recursive
-      - run: mkdir build;cd build;cmake -DBUILD_TESTS=ON ..;make -j8;make test
+      - run: mkdir build;cd build;cmake ..;make -j8
       - store_artifacts:
           path: build/bin
       - store_artifacts:
