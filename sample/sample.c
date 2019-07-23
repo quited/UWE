@@ -10,7 +10,7 @@ int add(int a, int b) {
   return a + b;
 }
 
-int import_from_outside_environment(int);
+extern int import_from_outside_environment(int);
 
 void call_import_from_outside_environment() {
   import_from_outside_environment(1);
