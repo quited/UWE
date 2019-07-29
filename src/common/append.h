@@ -77,81 +77,81 @@ namespace UWE {
       }
     }
 
-    template<typename T>
-    vector<T> Append(vector<T> &vec1, valarray<T> &arr,
-                     const AppendMode mode = AppendMode::kFullyMove) {
-      using std::make_move_iterator;
-      switch (mode) {
-        case AppendMode::kCopy: {
-          vec1.insert(vec1.end(), arr.begin(), arr.end());
-          return vec1;
-        }
-        case AppendMode::kMove: {
-          vec1.insert(vec1.end(),
-                      make_move_iterator(arr.begin()),
-                      make_move_iterator(arr.end()));
-          return arr;
-        }
-        case AppendMode::kFullyCopy: {
-          auto vec_res = vector<T>();
-          vec_res.reserve(vec1.size() + arr.size());
-          vec_res.insert(vec_res.end(), vec1.begin(), vec1.end());
-          vec_res.insert(vec_res.end(), arr.begin(), arr.end());
-          return vec_res;
-        }
-
-
-        case AppendMode::kFullyMove: {
-          auto vec_res = vector<T>();
-          vec_res.reserve(vec1.size() + arr.size());
-          vec_res.insert(vec_res.end(),
-                         make_move_iterator(vec1.begin()),
-                         make_move_iterator(vec1.end()));
-          vec_res.insert(vec_res.end(),
-                         make_move_iterator(arr.begin()),
-                         make_move_iterator(arr.end()));
-          return vec_res;
-        }
-      }
-    }
-
-    template<typename T, size_t arr_size>
-    vector<T> Append(vector<T> &vec1, array<T, arr_size> &arr,
-                     const AppendMode mode = AppendMode::kFullyMove) {
-      using std::make_move_iterator;
-      switch (mode) {
-        case AppendMode::kCopy: {
-          vec1.insert(vec1.end(), arr.begin(), arr.end());
-          return vec1;
-        }
-        case AppendMode::kMove: {
-          vec1.insert(vec1.end(),
-                      make_move_iterator(arr.begin()),
-                      make_move_iterator(arr.end()));
-          return arr;
-        }
-        case AppendMode::kFullyCopy: {
-          auto vec_res = vector<T>();
-          vec_res.reserve(vec1.size() + arr.size());
-          vec_res.insert(vec_res.end(), vec1.begin(), vec1.end());
-          vec_res.insert(vec_res.end(), arr.begin(), arr.end());
-          return vec_res;
-        }
-
-
-        case AppendMode::kFullyMove: {
-          auto vec_res = vector<T>();
-          vec_res.reserve(vec1.size() + arr.size());
-          vec_res.insert(vec_res.end(),
-                         make_move_iterator(vec1.begin()),
-                         make_move_iterator(vec1.end()));
-          vec_res.insert(vec_res.end(),
-                         make_move_iterator(arr.begin()),
-                         make_move_iterator(arr.end()));
-          return vec_res;
-        }
-      }
-    }
+//    template<typename T>
+//    vector<T> Append(vector<T> &vec1, valarray<T> &arr,
+//                     const AppendMode mode = AppendMode::kFullyMove) {
+//      using std::make_move_iterator;
+//      switch (mode) {
+//        case AppendMode::kCopy: {
+//          vec1.insert(vec1.end(), arr.begin(), arr.end());
+//          return vec1;
+//        }
+//        case AppendMode::kMove: {
+//          vec1.insert(vec1.end(),
+//                      make_move_iterator(arr.begin()),
+//                      make_move_iterator(arr.end()));
+//          return arr;
+//        }
+//        case AppendMode::kFullyCopy: {
+//          auto vec_res = vector<T>();
+//          vec_res.reserve(vec1.size() + arr.size());
+//          vec_res.insert(vec_res.end(), vec1.begin(), vec1.end());
+//          vec_res.insert(vec_res.end(), arr.begin(), arr.end());
+//          return vec_res;
+//        }
+//
+//
+//        case AppendMode::kFullyMove: {
+//          auto vec_res = vector<T>();
+//          vec_res.reserve(vec1.size() + arr.size());
+//          vec_res.insert(vec_res.end(),
+//                         make_move_iterator(vec1.begin()),
+//                         make_move_iterator(vec1.end()));
+//          vec_res.insert(vec_res.end(),
+//                         make_move_iterator(arr.begin()),
+//                         make_move_iterator(arr.end()));
+//          return vec_res;
+//        }
+//      }
+//    }
+//
+//    template<typename T, size_t arr_size>
+//    vector<T> Append(vector<T> &vec1, array<T, arr_size> &arr,
+//                     const AppendMode mode = AppendMode::kFullyMove) {
+//      using std::make_move_iterator;
+//      switch (mode) {
+//        case AppendMode::kCopy: {
+//          vec1.insert(vec1.end(), arr.begin(), arr.end());
+//          return vec1;
+//        }
+//        case AppendMode::kMove: {
+//          vec1.insert(vec1.end(),
+//                      make_move_iterator(arr.begin()),
+//                      make_move_iterator(arr.end()));
+//          return arr;
+//        }
+//        case AppendMode::kFullyCopy: {
+//          auto vec_res = vector<T>();
+//          vec_res.reserve(vec1.size() + arr.size());
+//          vec_res.insert(vec_res.end(), vec1.begin(), vec1.end());
+//          vec_res.insert(vec_res.end(), arr.begin(), arr.end());
+//          return vec_res;
+//        }
+//
+//
+//        case AppendMode::kFullyMove: {
+//          auto vec_res = vector<T>();
+//          vec_res.reserve(vec1.size() + arr.size());
+//          vec_res.insert(vec_res.end(),
+//                         make_move_iterator(vec1.begin()),
+//                         make_move_iterator(vec1.end()));
+//          vec_res.insert(vec_res.end(),
+//                         make_move_iterator(arr.begin()),
+//                         make_move_iterator(arr.end()));
+//          return vec_res;
+//        }
+//      }
+//    }
   }
 }
 #endif //SRC_COMMON_APPEND_H
